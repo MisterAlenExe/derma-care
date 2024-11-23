@@ -1,5 +1,6 @@
 import { createClient } from "@supabase/supabase-js";
 import { Anthropic } from "@anthropic/sdk";
+import { Buffer } from "node:buffer";
 
 const supabase = createClient(
   Deno.env.get("SUPABASE_URL")!,
@@ -99,3 +100,9 @@ Deno.serve(async (req) => {
     },
   );
 });
+
+async function convertFileToBase64(file: File) {
+  const arrayBuffer = await file.arrayBuffer();
+  const base64 = Buffer.from(arrayBuffer).toString("base64");
+  return base64;
+}
